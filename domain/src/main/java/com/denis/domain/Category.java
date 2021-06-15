@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
+
     private String name;
     protected List<Product> productList;
 
@@ -11,7 +12,7 @@ public class Category {
         this.name = name;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
