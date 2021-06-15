@@ -3,7 +3,6 @@ package com.denis.store;
 import com.denis.domain.Category;
 import com.denis.store.utility.RandomStorePopulator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Store {
@@ -19,12 +18,13 @@ public class Store {
 
     @Override
     public String toString() {
-        List<String> printStore = new ArrayList<>();
+        StringBuilder printStore = new StringBuilder();
         for (Category category : categoryList) {
-            printStore.add(category.toString());
+            printStore.append(category.toString());
+            printStore.append("\n");
         }
 
-        return "WILDEN's ONLINE STORE: \n" + String.join("\n", printStore);
+        return "WILDEN's ONLINE STORE: \n" + printStore;
     }
 
     public void print() {

@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
-    public String name;
-    private List<Product> productList;
+    private String name;
+    protected List<Product> productList;
 
     public Category(String name) {
         this.name = name;
+    }
+
+    public String getName(){
+        return name;
     }
 
     @Override

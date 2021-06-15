@@ -23,7 +23,7 @@ public class RandomStorePopulator {
             ArrayList<Product> products = new ArrayList<>();
 
             for (int i = 0; i < 3; i++) {
-                switch (category.name) {
+                switch (category.getName()) {
                     case "Book":
                         products.add(
                                 getRandomProduct(faker.book().title()));
