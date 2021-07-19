@@ -1,5 +1,6 @@
 package com.denis.consoleapp;
 
+import com.denis.consoleapp.service.CommandService;
 import com.denis.store.Store;
 
 import java.util.Scanner;
@@ -17,26 +18,24 @@ public class StoreApp {
     private static void initStore() {
         Scanner scanner = new Scanner(System.in);
         Store store = new Store();
-        store.print();
-        executeStore(scanner, store);
+        CommandService commandService = new CommandService(store);
+        commandService.printStore();
+        executeStore(scanner, commandService);
     }
 
-    private static void executeStore(Scanner scanner, Store store) {
+    private static void executeStore(Scanner scanner, CommandService commandService) {
         System.out.println("Available list of commands: print, sort, top, quit");
         String storeCommand = scanner.nextLine();
         switch (storeCommand) {
             case print:
                 System.out.println("Store returned to standard state"); // sort and top commands not modifying product list
-                store.print();
-                executeStore(scanner, store);
+                commandService.printStore();
                 break;
             case sort:
-                store.printSort();
-                executeStore(scanner, store);
+                commandService.printSort();
                 break;
             case top:
-                store.printTopPrice();
-                executeStore(scanner, store);
+                commandService.printTopPrice();
                 break;
             case quit:
                 System.exit(0);
@@ -45,6 +44,7 @@ public class StoreApp {
                 System.out.println("Invalid command. Please enter the correct one");
                 break;
         }
+        executeStore(scanner, commandService);
     }
 }
 

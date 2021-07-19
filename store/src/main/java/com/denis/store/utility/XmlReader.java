@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XmlReader {
-    public static List<SortRules> parceXml() {
+    public static List<SortRules> parceXml(String fileName) {
         List<SortRules> fieldToOrder = new ArrayList<>();
-        InputStream istream = XmlReader.class.getResourceAsStream("SortParams.xml");
+        InputStream istream = XmlReader.class.getResourceAsStream(fileName);
         try {
-            XMLStreamReader xmlr = XMLInputFactory.newInstance().createXMLStreamReader("SortParams.xml",
+            XMLStreamReader xmlr = XMLInputFactory.newInstance().createXMLStreamReader(fileName,
                     istream
             );
             String key = "";

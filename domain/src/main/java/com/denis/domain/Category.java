@@ -3,7 +3,7 @@ package com.denis.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public class Category implements Cloneable {
 
     private String name;
     protected List<Product> productList;
@@ -36,5 +36,10 @@ public class Category {
 
     public List<Product> getProductList() {
         return productList;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
