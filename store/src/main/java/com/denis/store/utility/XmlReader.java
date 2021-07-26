@@ -4,12 +4,12 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class XmlReader {
-    public static List<SortRules> parceXml(String fileName) {
-        List<SortRules> fieldToOrder = new ArrayList<>();
+    public static Map<String, String> parceXml(String fileName) {
+        Map<String, String> fieldToOrder = new HashMap<>();
         InputStream istream = XmlReader.class.getResourceAsStream(fileName);
         try {
             XMLStreamReader xmlr = XMLInputFactory.newInstance().createXMLStreamReader(fileName,
@@ -23,23 +23,12 @@ public class XmlReader {
                 } else if (xmlr.isEndElement()) {
                     key = xmlr.getLocalName();
                 } else if (xmlr.hasText() && xmlr.getText().trim().length() > 0) {
-                    fieldToOrder.add(new SortRules(key, xmlr.getText()));
-                    key = "";
+                    fieldToOrder.put(key, xmlr.getText());
                 }
             }
         } catch (XMLStreamException ex) {
             ex.printStackTrace();
         }
         return fieldToOrder;
-    }
-
-    public static class SortRules {
-        public String keyName;
-        public String sortRule;
-
-        public SortRules(String keyName, String sortRule) {
-            this.keyName = keyName;
-            this.sortRule = sortRule;
-        }
     }
 }

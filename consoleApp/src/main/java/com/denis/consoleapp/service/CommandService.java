@@ -4,11 +4,9 @@ import com.denis.domain.Category;
 import com.denis.domain.Product;
 import com.denis.store.Store;
 import com.denis.store.utility.CommandSortComparator;
+import com.denis.store.utility.XmlReader;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandService {
@@ -24,7 +22,10 @@ public class CommandService {
 
     public void printSort() {
         try {
-            CommandSortComparator commandSortComparator = new CommandSortComparator("SortParams.xml");
+            XmlReader xmlReader = new XmlReader();
+            CommandSortComparator commandSortComparator = new CommandSortComparator(
+                    xmlReader.parceXml("SortParams.xml")
+            );
             List<Category> cloneCategory = new ArrayList<>();
             for (Category category : store.getCategoryList()) {
                 Category cloneCat = (Category) category.clone();
@@ -65,8 +66,9 @@ public class CommandService {
 
     private List<Product> getTopSortProduct() {
         ArrayList<Product> allProducts = new ArrayList<>();
-
-        Comparator priceComparator = new CommandSortComparator();
+        HashMap sortParams = new HashMap<>();
+        sortParams.put("price", "desc");
+        Comparator priceComparator = new CommandSortComparator(sortParams);
         for (Category cat : store.getCategoryList()) {
             allProducts.addAll(cat.getProductList());
         }
