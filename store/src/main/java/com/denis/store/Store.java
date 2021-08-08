@@ -1,25 +1,26 @@
 package com.denis.store;
 
 import com.denis.domain.Category;
-import com.denis.domain.Product;
-import com.denis.store.utility.CommandSortComparator;
 import com.denis.store.utility.RandomStorePopulator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Store {
     private List<Category> categoryList;
+    private static Store store;
 
-    public Store() {
+    private Store() {
         try {
             this.categoryList = new RandomStorePopulator().getRandomCategory();
         } catch (Exception exception) {
             System.out.println("ERROR: RandomStorePopulator = " + exception.getMessage());
         }
+    }
+
+    public static Store getInstance() {
+        if (store == null) store = new Store();
+
+        return store;
     }
 
     @Override

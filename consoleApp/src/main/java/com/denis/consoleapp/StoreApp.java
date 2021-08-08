@@ -1,6 +1,6 @@
 package com.denis.consoleapp;
 
-import com.denis.consoleapp.service.CommandService;
+import com.denis.consoleapp.service.*;
 import com.denis.store.Store;
 
 import java.util.Scanner;
@@ -17,34 +17,43 @@ public class StoreApp {
 
     private static void initStore() {
         Scanner scanner = new Scanner(System.in);
-        Store store = new Store();
+        Store store = Store.getInstance();
         CommandService commandService = new CommandService(store);
         commandService.printStore();
-        executeStore(scanner, commandService);
+
+        Switch aSwitch = new Switch(new PrintTopPriceCommand(commandService),
+                new ExitCommand(commandService),
+                new PrintSortCommand(commandService),
+                new PrintStoreCommand(commandService));
+
+        executeStore(scanner, aSwitch);
     }
 
-    private static void executeStore(Scanner scanner, CommandService commandService) {
+    private static void executeStore(Scanner scanner, Switch s) {
         System.out.println("Available list of commands: print, sort, top, quit");
+
         String storeCommand = scanner.nextLine();
+
         switch (storeCommand) {
             case print:
-                System.out.println("Store returned to standard state"); // sort and top commands not modifying product list
-                commandService.printStore();
+                // sort and top commands not modifying product list
+                System.out.println("Store returned to standard state");
+                s.printStore();
                 break;
             case sort:
-                commandService.printSort();
+                s.printSort();
                 break;
             case top:
-                commandService.printTopPrice();
+                s.printTopPrice();
                 break;
             case quit:
-                System.exit(0);
+                s.exit();
                 break;
             default:
                 System.out.println("Invalid command. Please enter the correct one");
                 break;
         }
-        executeStore(scanner, commandService);
+        executeStore(scanner, s);
     }
 }
 
