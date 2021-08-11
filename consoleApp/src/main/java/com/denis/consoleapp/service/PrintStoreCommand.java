@@ -1,15 +1,16 @@
 package com.denis.consoleapp.service;
 
-public class PrintStoreCommand implements Command {
-    private CommandService commandService;
+import com.denis.store.Store;
 
-    public PrintStoreCommand(CommandService commandService) {
-        this.commandService = commandService;
+public class PrintStoreCommand implements Command {
+    private Store store;
+
+    public PrintStoreCommand(Store store) {
+        this.store = store;
     }
 
     @Override
     public void execute() {
-        commandService.printStore();
+        System.out.println(store);
     }
-
 }

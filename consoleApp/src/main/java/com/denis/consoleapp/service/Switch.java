@@ -5,12 +5,15 @@ public class Switch {
     private Command exitCommand;
     private Command printSortCommand;
     private Command printStoreCommand;
+    private Command printOrderCommand;
 
-    public Switch(Command printTopPriceCommand, Command exitCommand, Command printSortCommand, Command printStoreCommand) {
+    public Switch(Command printTopPriceCommand, Command exitCommand, Command printSortCommand, Command printStoreCommand, Command printOrderCommand) {
         this.printTopPriceCommand = printTopPriceCommand;
         this.exitCommand = exitCommand;
         this.printSortCommand = printSortCommand;
         this.printStoreCommand = printStoreCommand;
+        this.printOrderCommand = printOrderCommand;
+
     }
 
     public void printTopPrice() {
@@ -27,5 +30,9 @@ public class Switch {
 
     public void printStore() {
         printStoreCommand.execute();
+    }
+
+    public void printOrder() {
+        printOrderCommand.execute();
     }
 }

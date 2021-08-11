@@ -1,10 +1,12 @@
 package com.denis.consoleapp.service;
 
-public class ExitCommand implements Command {
-    private CommandService commandService;
+import com.denis.store.Store;
 
-    public ExitCommand(CommandService commandService) {
-        this.commandService = commandService;
+public class ExitCommand implements Command {
+    private Store store;
+
+    public ExitCommand(Store store) {
+        this.store = store;
     }
 
     @Override

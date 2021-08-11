@@ -1,12 +1,15 @@
 package com.denis.store;
 
 import com.denis.domain.Category;
+import com.denis.domain.Product;
 import com.denis.store.utility.RandomStorePopulator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Store {
     private List<Category> categoryList;
+    private List<Product> purchasedItems = new ArrayList<>();
     private static Store store;
 
     private Store() {
@@ -18,8 +21,9 @@ public class Store {
     }
 
     public static Store getInstance() {
-        if (store == null) store = new Store();
-
+        if (store == null) {
+            store = new Store();
+        }
         return store;
     }
 
@@ -36,5 +40,9 @@ public class Store {
 
     public List<Category> getCategoryList() {
         return categoryList;
+    }
+
+    public List<Product> getPurchasedItems() {
+        return purchasedItems;
     }
 }
