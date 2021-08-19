@@ -10,15 +10,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PrintSortCommand implements Command {
-    private Store store;
-
+public class PrintSortCommand extends Handler {
     public PrintSortCommand(Store store) {
-        this.store = store;
+        super(store);
     }
 
     @Override
-    public void execute() {
+    public boolean handler(String command) {
+        return "sort".equalsIgnoreCase(command);
+    }
+
+    @Override
+    public void execute(String command) {
         try {
             XmlReader xmlReader = new XmlReader();
             CommandSortComparator commandSortComparator = new CommandSortComparator(

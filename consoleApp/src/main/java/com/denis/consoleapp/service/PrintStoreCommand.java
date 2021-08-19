@@ -2,15 +2,18 @@ package com.denis.consoleapp.service;
 
 import com.denis.store.Store;
 
-public class PrintStoreCommand implements Command {
-    private Store store;
-
+public class PrintStoreCommand extends Handler {
     public PrintStoreCommand(Store store) {
-        this.store = store;
+        super(store);
     }
 
     @Override
-    public void execute() {
+    public boolean handler(String command) {
+        return "print".equalsIgnoreCase(command);
+    }
+
+    @Override
+    public void execute(String command) {
         System.out.println(store);
     }
 }

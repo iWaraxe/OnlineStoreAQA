@@ -2,15 +2,18 @@ package com.denis.consoleapp.service;
 
 import com.denis.store.Store;
 
-public class ExitCommand implements Command {
-    private Store store;
-
+public class ExitCommand extends Handler {
     public ExitCommand(Store store) {
-        this.store = store;
+        super(store);
     }
 
     @Override
-    public void execute() {
+    public boolean handler(String command) {
+        return "quit".equalsIgnoreCase(command);
+    }
+
+    @Override
+    public void execute(String command) {
         System.exit(0);
     }
 }

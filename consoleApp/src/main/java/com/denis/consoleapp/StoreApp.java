@@ -22,19 +22,13 @@ public class StoreApp {
 
     private static void initStore() {
         Scanner scanner = new Scanner(System.in);
-        Store store = Store.getInstance();
-        PrintStoreCommand printStoreCommand = new PrintStoreCommand(store);
-        printStoreCommand.execute();
+        Store store = new Store();
+        CommandManager manager = new CommandManager(store);
+        manager.execute("print");
 
         clearCartByTimer(store);
 
-        Switch aSwitch = new Switch(new PrintTopPriceCommand(store),
-                new ExitCommand(store),
-                new PrintSortCommand(store),
-                new PrintStoreCommand(store),
-                new PrintOrderCommand(store));
-
-        executeStore(scanner, aSwitch);
+        executeStore(scanner, manager);
     }
 
     private static void clearCartByTimer(Store store) { // checking that products are added to the cart and then cleared
@@ -54,32 +48,31 @@ public class StoreApp {
         scheduledExecutorService.scheduleAtFixedRate(cartCleaner, 60, 120, TimeUnit.SECONDS);
     }
 
-    private static void executeStore(Scanner scanner, Switch s) {
+    private static void executeStore(Scanner scanner, CommandManager manager) {
         System.out.println("Available list of commands: print, sort, top, order, quit");
 
         String storeCommand = scanner.nextLine();
 
         switch (storeCommand) {
             case print:
-                System.out.println("Store returned to standard state");
-                s.printStore();
+                manager.execute("print");
                 break;
             case sort:
-                s.printSort();
+                manager.execute("sort");
                 break;
             case top:
-                s.printTopPrice();
+                manager.execute("top");
                 break;
             case order:
-                s.printOrder();
+                manager.execute("order");
                 break;
             case quit:
-                s.exit();
+                manager.execute("quit");
                 break;
             default:
-                System.out.println("Invalid command. Please enter the correct one");
+                manager.execute("");
                 break;
         }
-        executeStore(scanner, s);
+        executeStore(scanner, manager);
     }
 }

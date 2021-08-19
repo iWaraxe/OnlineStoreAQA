@@ -10,21 +10,13 @@ import java.util.List;
 public class Store {
     private List<Category> categoryList;
     private List<Product> purchasedItems = new ArrayList<>();
-    private static Store store;
 
-    private Store() {
+    public Store() {
         try {
             this.categoryList = new RandomStorePopulator().getRandomCategory();
         } catch (Exception exception) {
             System.out.println("ERROR: RandomStorePopulator = " + exception.getMessage());
         }
-    }
-
-    public static Store getInstance() {
-        if (store == null) {
-            store = new Store();
-        }
-        return store;
     }
 
     @Override

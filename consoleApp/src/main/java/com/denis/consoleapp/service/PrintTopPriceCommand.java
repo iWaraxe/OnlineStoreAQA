@@ -8,15 +8,18 @@ import com.denis.store.utility.CommandSortComparator;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PrintTopPriceCommand implements Command {
-    private Store store;
-
+public class PrintTopPriceCommand extends Handler {
     public PrintTopPriceCommand(Store store) {
-        this.store = store;
+        super(store);
     }
 
     @Override
-    public void execute() {
+    public boolean handler(String command) {
+        return "top".equalsIgnoreCase(command);
+    }
+
+    @Override
+    public void execute(String command) {
         StringBuilder stringBuilder = new StringBuilder();
         List<Product> topSortProducts = getTopSortProduct();
         for (int i = 0; i < topSortProducts.size(); i++) {
@@ -30,8 +33,8 @@ public class PrintTopPriceCommand implements Command {
     }
 
     private List<Product> getTopSortProduct() {
-        ArrayList<Product> allProducts = new ArrayList<>();
-        HashMap sortParams = new HashMap<>();
+        List<Product> allProducts = new ArrayList<>();
+        Map sortParams = new HashMap<>();
         sortParams.put("price", "desc");
         Comparator priceComparator = new CommandSortComparator(sortParams);
         for (Category cat : store.getCategoryList()) {
