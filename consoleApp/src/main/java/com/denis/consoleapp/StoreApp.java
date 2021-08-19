@@ -70,6 +70,7 @@ public class StoreApp {
                 manager.execute("quit");
                 break;
             default:
+                System.out.println("Invalid command. Please enter the correct one!");
                 manager.execute("");
                 break;
         }

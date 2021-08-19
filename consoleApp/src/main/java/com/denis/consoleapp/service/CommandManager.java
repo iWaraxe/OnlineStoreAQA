@@ -21,7 +21,7 @@ public class CommandManager {
 
     public void execute(String str) {
         Handler commandHandler = commands.stream().filter(c -> c.handler(str)).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid command. Please enter the correct one!"));
+                .orElse(new PrintStoreCommand(store));
         commandHandler.execute(str);
     }
 }
