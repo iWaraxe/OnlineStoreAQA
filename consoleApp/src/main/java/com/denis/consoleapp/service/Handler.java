@@ -1,15 +1,11 @@
 package com.denis.consoleapp.service;
 
 import com.denis.store.Store;
+import com.denis.store.utility.BaseString;
 
-public abstract class Handler {
-    protected Store store;
+public abstract class Handler extends BaseString {
 
-    public Handler(Store store) {
-        this.store = store;
-    }
+    public abstract boolean isAccessibleHandler(String handler);
 
-    public abstract boolean handler(String command);
-
-    public abstract void execute(String command);
+    public abstract void execute(Store store);
 }

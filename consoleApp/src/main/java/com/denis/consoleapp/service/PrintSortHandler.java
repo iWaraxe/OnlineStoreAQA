@@ -10,18 +10,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PrintSortCommand extends Handler {
-    public PrintSortCommand(Store store) {
-        super(store);
+public class PrintSortHandler extends Handler {
+
+    @Override
+    public boolean isAccessibleHandler(String handler) {
+        return "sort".equalsIgnoreCase(handler);
     }
 
     @Override
-    public boolean handler(String command) {
-        return "sort".equalsIgnoreCase(command);
-    }
-
-    @Override
-    public void execute(String command) {
+    public void execute(Store store) {
         try {
             XmlReader xmlReader = new XmlReader();
             CommandSortComparator commandSortComparator = new CommandSortComparator(
@@ -30,7 +27,7 @@ public class PrintSortCommand extends Handler {
             List<Category> cloneCategory = new ArrayList<>();
             for (Category category : store.getCategoryList()) {
                 Category cloneCat = (Category) category.clone();
-                ArrayList<Product> copyProductsList = new ArrayList<>();
+                List<Product> copyProductsList = new ArrayList<>();
                 for (Product product : category.getProductList()) {
                     copyProductsList.add(
                             (Product) product.clone()
@@ -40,13 +37,8 @@ public class PrintSortCommand extends Handler {
                 cloneCategory.add(cloneCat);
                 Collections.sort(cloneCat.getProductList(), commandSortComparator);
             }
-            StringBuilder printStore = new StringBuilder();
-            printStore.append("Store sorted using a config XML file!!!\n");
-            for (Category category : cloneCategory) {
-                printStore.append(category.toString());
-                printStore.append("\n");
-            }
-            System.out.println(printStore);
+            System.out.println("Store sorted using a config XML file!!!\n");
+            System.out.print(printCategories(cloneCategory));
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

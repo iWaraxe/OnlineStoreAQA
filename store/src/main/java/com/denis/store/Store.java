@@ -19,17 +19,6 @@ public class Store {
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder printStore = new StringBuilder();
-        for (Category category : categoryList) {
-            printStore.append(category.toString());
-            printStore.append("\n");
-        }
-
-        return "WILDEN's ONLINE STORE: \n" + printStore;
-    }
-
     public List<Category> getCategoryList() {
         return categoryList;
     }
