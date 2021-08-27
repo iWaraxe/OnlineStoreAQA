@@ -6,9 +6,9 @@ import com.denis.store.Store;
 
 import java.util.List;
 
-public class BaseString {
+public class PrintHelper {
 
-    public String printCategories(List<Category> categoryList) {
+    public static String printCategories(List<Category> categoryList) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Category category : categoryList) {
             stringBuilder.append(printCategoryLine(category));
@@ -16,14 +16,14 @@ public class BaseString {
         return stringBuilder.toString();
     }
 
-    public String printCategoryLine(Category category) {
+    public static String printCategoryLine(Category category) {
         StringBuilder printStore = new StringBuilder();
         printStore.append(printCategory(category));
         printStore.append("\n");
         return printStore.toString();
     }
 
-    public String printCategory(Category c) {
+    public static String printCategory(Category c) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(c.getName());
         stringBuilder.append(" for sale: \n");
@@ -35,7 +35,7 @@ public class BaseString {
         return stringBuilder.toString();
     }
 
-    public String printStore(Store store) {
+    public static String printStore(Store store) {
         StringBuilder printStore = new StringBuilder();
         printStore.append("WILDEN's ONLINE STORE:");
         printStore.append("\n");
@@ -46,7 +46,7 @@ public class BaseString {
         return printStore.toString();
     }
 
-    public String printProductLine(Product product) {
+    public static String printProductLine(Product product) {
         String printProduct = String.format(
                 "Name: '%s', Rating: %s, Price: %s",
                 product.getName(),
