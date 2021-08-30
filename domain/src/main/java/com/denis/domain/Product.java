@@ -25,12 +25,6 @@ public class Product implements Cloneable {
     }
 
     @Override
-    public String toString() {
-        String printProduct = String.format("Name: '%s', Rating: %s, Price: %s", name, rating, price);
-        return printProduct;
-    }
-
-    @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
