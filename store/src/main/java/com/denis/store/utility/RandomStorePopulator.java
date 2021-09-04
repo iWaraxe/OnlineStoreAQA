@@ -2,48 +2,45 @@ package com.denis.store.utility;
 
 import com.denis.domain.Category;
 import com.denis.domain.Product;
+import com.denis.store.utility.dao.CategoryDao;
+import com.denis.store.utility.dao.ProductDao;
 import com.github.javafaker.Faker;
-import org.reflections.Reflections;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class RandomStorePopulator {
     public static List<Category> fakerCategory = new ArrayList<>();
+    private static final CategoryDao categoryDao = new CategoryDao();
+    private static final ProductDao productDao = new ProductDao();
 
     public RandomStorePopulator() throws IllegalAccessException, InstantiationException {
-
-        Reflections reflections = new Reflections("com.denis.domain.categories");
-        Set<Class<? extends Category>> subClassesForCategory = reflections.getSubTypesOf(Category.class);
-
+        List<Category> categories = categoryDao.getAll();
         Faker faker = new Faker();
-        for (Class<? extends Category> categoryChildClass : subClassesForCategory) {
-            Category category = categoryChildClass.newInstance();
-            ArrayList<Product> products = new ArrayList<>();
 
+        for (Category category : categories) {
             for (int i = 0; i < 3; i++) {
                 switch (category.getName()) {
                     case "Book":
-                        products.add(
-                                getRandomProduct(faker.book().title()));
+                        Product bookProduct = getRandomProduct(faker.book().title());
+                        productDao.save(bookProduct, category);
                         break;
                     case "Beer":
-                        products.add(
-                                getRandomProduct(faker.beer().name()));
+                        Product beerProduct = getRandomProduct(faker.beer().name());
+                        productDao.save(beerProduct, category);
                         break;
                     case "Food":
-                        products.add(
-                                getRandomProduct(faker.food().sushi()));
+                        Product foodProduct = getRandomProduct(faker.food().sushi());
+                        productDao.save(foodProduct, category);
                         break;
                     default:
-                        products.add(
-                                getRandomProduct(faker.space().company()));
+                        Product otherProduct = getRandomProduct(faker.space().company());
+                        productDao.save(otherProduct, category);
                         break;
                 }
             }
-            category.setProductList(products);
-            fakerCategory.add(category);
+
+            fakerCategory = categoryDao.getAll();
         }
     }
 

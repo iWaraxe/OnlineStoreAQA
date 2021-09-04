@@ -1,5 +1,7 @@
 package com.denis.domain;
 
+import com.denis.store.utility.dao.CategoryDao;
+
 import java.util.List;
 
 public class Category implements Cloneable {
@@ -9,6 +11,10 @@ public class Category implements Cloneable {
 
     public Category(String name) {
         this.name = name;
+        CategoryDao categoryDao = new CategoryDao();
+        if (!categoryDao.existsByName(name)) {
+            categoryDao.saveByName(name);
+        }
     }
 
     public String getName() {
