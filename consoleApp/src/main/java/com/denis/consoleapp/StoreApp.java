@@ -4,10 +4,10 @@ import com.denis.consoleapp.service.*;
 import com.denis.domain.Product;
 import com.denis.store.Store;
 import com.denis.store.utility.CategoryInitializer;
-import com.denis.store.utility.ConnectionPool;
+import com.denis.store.utility.DBInitializer;
+import com.denis.store.utility.populator.Populator;
+import com.denis.store.utility.populator.RandomStorePopulator;
 
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -18,14 +18,15 @@ import static com.denis.store.utility.PrintHelper.*;
 public class StoreApp {
 
     public static void main(String[] args) {
-        initDb();
+        DBInitializer.init();
         CategoryInitializer.init();
         initStore();
     }
 
     private static void initStore() {
         Scanner scanner = new Scanner(System.in);
-        Store store = new Store();
+        Populator populator = new RandomStorePopulator();
+        Store store = new Store(populator);
         HandlerManager manager = new HandlerManager();
         manager.execute("print", store);
 
@@ -56,27 +57,5 @@ public class StoreApp {
         String storeCommand = scanner.nextLine();
         manager.execute(storeCommand, store);
         executeStore(scanner, manager, store);
-    }
-
-    public static void initDb() {
-        try {
-            Connection connection = ConnectionPool.getConnection();
-            Statement statement = connection.createStatement();
-
-            try {
-                statement.executeUpdate("DROP TABLE Products");
-                statement.executeUpdate("DROP TABLE Category");
-            } catch (Exception ignored) {
-            }
-
-            statement.executeUpdate("CREATE TABLE Category (name VARCHAR(255), PRIMARY KEY (name))");
-            statement.executeUpdate("CREATE TABLE Products (category_name VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, " +
-                    "rating DOUBLE PRECISION, price DOUBLE PRECISION, PRIMARY KEY (category_name, name), " +
-                    "foreign key (category_name) references Category(name))");
-            connection.commit();
-            connection.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
     }
 }

@@ -10,9 +10,9 @@ public class ConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
 
     static {
-        ds.setUrl("jdbc:h2:~/store");
-        ds.setUsername("admin");
-        ds.setPassword("123");
+        ds.setUrl(Config.getProperty("db.url"));
+        ds.setUsername(Config.getProperty("db.user"));
+        ds.setPassword(Config.getProperty("db.password"));
     }
 
     public static Connection getConnection() throws SQLException {

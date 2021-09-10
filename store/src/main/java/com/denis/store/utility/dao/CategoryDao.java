@@ -7,53 +7,85 @@ import com.denis.store.utility.ConnectionPool;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CategoryDao {
 
     public static final String SELECT_ALL_SQL = "SELECT * FROM Category";
     public static final String SELECT_BY_NAME_SQL = "SELECT * FROM Category WHERE name = ?";
-    public static final String INSERT_SQL = "INSERT INTO Category VALUES (?)";
+    public static final String INSERT_SQL = "INSERT INTO Category (name) VALUES (?)";
     private final ProductDao productDao = new ProductDao();
 
     public boolean existsByName(String name) {
+        Connection connection = null;
 
-        try (Connection connection = ConnectionPool.getConnection()) {
+        try {
+            connection = ConnectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_NAME_SQL);
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            if (Objects.nonNull(connection)) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
     public void saveByName(String name) {
+        Connection connection = null;
 
-        try (Connection connection = ConnectionPool.getConnection()) {
+        try {
+            connection = ConnectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_SQL);
             statement.setString(1, name);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            if (Objects.nonNull(connection)) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 
     public List<Category> getAll() {
         List<Category> result = new ArrayList<>();
+        Connection connection = null;
 
-        try (Connection connection = ConnectionPool.getConnection()) {
+        try {
+            connection = ConnectionPool.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_SQL);
 
             while (resultSet.next()) {
+                int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                Category category = new Category(name);
-                List<Product> products = productDao.getAllByCategoryName(name);
+                Category category = new Category(id, name);
+                List<Product> products = productDao.getAllByCategoryId(id);
                 category.setProductList(products);
                 result.add(category);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            if (Objects.nonNull(connection)) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
         return result;
     }

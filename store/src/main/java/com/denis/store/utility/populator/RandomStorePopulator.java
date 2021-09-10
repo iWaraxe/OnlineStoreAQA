@@ -1,4 +1,4 @@
-package com.denis.store.utility;
+package com.denis.store.utility.populator;
 
 import com.denis.domain.Category;
 import com.denis.domain.Product;
@@ -9,12 +9,12 @@ import com.github.javafaker.Faker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RandomStorePopulator {
+public class RandomStorePopulator implements Populator {
     public static List<Category> fakerCategory = new ArrayList<>();
     private static final CategoryDao categoryDao = new CategoryDao();
     private static final ProductDao productDao = new ProductDao();
 
-    public RandomStorePopulator() throws IllegalAccessException, InstantiationException {
+    public RandomStorePopulator() {
         List<Category> categories = categoryDao.getAll();
         Faker faker = new Faker();
 
@@ -22,20 +22,20 @@ public class RandomStorePopulator {
             for (int i = 0; i < 3; i++) {
                 switch (category.getName()) {
                     case "Book":
-                        Product bookProduct = getRandomProduct(faker.book().title());
-                        productDao.save(bookProduct, category);
+                        Product bookProduct = getRandomProduct(faker.book().title(), category);
+                        productDao.save(bookProduct);
                         break;
                     case "Beer":
-                        Product beerProduct = getRandomProduct(faker.beer().name());
-                        productDao.save(beerProduct, category);
+                        Product beerProduct = getRandomProduct(faker.beer().name(), category);
+                        productDao.save(beerProduct);
                         break;
                     case "Food":
-                        Product foodProduct = getRandomProduct(faker.food().sushi());
-                        productDao.save(foodProduct, category);
+                        Product foodProduct = getRandomProduct(faker.food().sushi(), category);
+                        productDao.save(foodProduct);
                         break;
                     default:
-                        Product otherProduct = getRandomProduct(faker.space().company());
-                        productDao.save(otherProduct, category);
+                        Product otherProduct = getRandomProduct(faker.space().company(), category);
+                        productDao.save(otherProduct);
                         break;
                 }
             }
@@ -44,8 +44,8 @@ public class RandomStorePopulator {
         }
     }
 
-    private Product getRandomProduct(String productName) {
-        return new Product(productName,
+    private Product getRandomProduct(String productName, Category category) {
+        return new Product(category.getId(), productName,
                 new Faker().number().randomDouble(1, 1, 10),
                 new Faker().number().randomDouble(1, 1, 100));
     }
