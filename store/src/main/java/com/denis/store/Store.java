@@ -16,7 +16,7 @@ public class Store {
     }
 
     public List<Category> getCategoryList() {
-        return populator.getRandomCategory();
+        return populator.getAllCategories();
     }
 
     public List<Product> getPurchasedItems() {

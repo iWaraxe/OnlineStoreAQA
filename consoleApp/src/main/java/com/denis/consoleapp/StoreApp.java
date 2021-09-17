@@ -1,10 +1,9 @@
 package com.denis.consoleapp;
 
-import com.denis.consoleapp.service.*;
+import com.denis.consoleapp.service.HandlerManager;
 import com.denis.domain.Product;
 import com.denis.store.Store;
-import com.denis.store.utility.CategoryInitializer;
-import com.denis.store.utility.DBInitializer;
+import com.denis.store.utility.populator.DBPopulator;
 import com.denis.store.utility.populator.Populator;
 import com.denis.store.utility.populator.RandomStorePopulator;
 
@@ -13,19 +12,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.denis.store.utility.PrintHelper.*;
+import static com.denis.store.utility.PrintHelper.printProductLine;
 
 public class StoreApp {
 
-    public static void main(String[] args) {
-        DBInitializer.init();
-        CategoryInitializer.init();
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException {
         initStore();
     }
 
-    private static void initStore() {
+    private static void initStore() throws InstantiationException, IllegalAccessException {
         Scanner scanner = new Scanner(System.in);
-        Populator populator = new RandomStorePopulator();
+        Populator populator = new DBPopulator();
         Store store = new Store(populator);
         HandlerManager manager = new HandlerManager();
         manager.execute("print", store);

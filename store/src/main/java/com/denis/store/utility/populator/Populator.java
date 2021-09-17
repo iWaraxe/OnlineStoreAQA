@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Populator {
 
-    List<Category> getRandomCategory();
+    List<Category> getAllCategories();
 }

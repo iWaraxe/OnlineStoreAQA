@@ -23,6 +23,12 @@ public class Product implements Cloneable {
         this.price = price;
     }
 
+    public Product(String name, double rating, double price) {
+        this.name = name;
+        this.rating = rating;
+        this.price = price;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -41,6 +47,10 @@ public class Product implements Cloneable {
 
     public int getCategoryId() {
         return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

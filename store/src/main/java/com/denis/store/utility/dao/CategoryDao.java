@@ -38,14 +38,22 @@ public class CategoryDao {
         }
     }
 
-    public void saveByName(String name) {
+    public int saveByName(String name) {
         Connection connection = null;
 
         try {
             connection = ConnectionPool.getConnection();
-            PreparedStatement statement = connection.prepareStatement(INSERT_SQL);
+            PreparedStatement statement = connection.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.executeUpdate();
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt("id");
+                } else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage(), e);
         } finally {
