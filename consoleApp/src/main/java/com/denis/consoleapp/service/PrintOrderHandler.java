@@ -74,7 +74,7 @@ public class PrintOrderHandler extends Handler {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
         int threadTime = 1 + (int) (Math.random() * 29);
         Runnable removePurchasedItems = () -> {
-            store.getPurchasedItems().add(orderedProduct);
+            store.getPopulator().addToCart(orderedProduct);
             System.out.println("Product '" + orderedProduct.getName() + "'" + " is added to the cart");
         };
         scheduledExecutorService.schedule(removePurchasedItems, threadTime, TimeUnit.SECONDS);

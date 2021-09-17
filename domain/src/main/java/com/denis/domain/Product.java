@@ -8,6 +8,9 @@ public class Product implements Cloneable {
     private double rating;
     private double price;
 
+    public Product() {
+    }
+
     public Product(int id, int categoryId, String name, double rating, double price) {
         this.id = id;
         this.categoryId = categoryId;

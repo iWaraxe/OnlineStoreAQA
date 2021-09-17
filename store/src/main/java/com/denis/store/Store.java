@@ -8,11 +8,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Store {
-    private List<Product> purchasedItems = new ArrayList<>();
+    private static Store store;
     private final Populator populator;
+    private List<Product> purchasedItems = new ArrayList<>();
 
-    public Store(Populator populator) {
+    private Store(Populator populator) {
         this.populator = populator;
+    }
+
+    public static Store getInstance(Populator populator) {
+        if (store == null) {
+            store = new Store(populator);
+        }
+        return store;
+    }
+
+    public static Store getInstance() {
+        if (store == null) {
+            throw new RuntimeException("Store is not initialized");
+        }
+        return store;
     }
 
     public List<Category> getCategoryList() {
@@ -21,5 +36,9 @@ public class Store {
 
     public List<Product> getPurchasedItems() {
         return purchasedItems;
+    }
+
+    public Populator getPopulator() {
+        return populator;
     }
 }

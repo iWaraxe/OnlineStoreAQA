@@ -3,7 +3,9 @@ package com.denis.consoleapp;
 import com.denis.consoleapp.service.HandlerManager;
 import com.denis.domain.Product;
 import com.denis.store.Store;
+import com.denis.store.utility.http.AppHttpServer;
 import com.denis.store.utility.populator.DBPopulator;
+import com.denis.store.utility.populator.HttpPopulator;
 import com.denis.store.utility.populator.Populator;
 import com.denis.store.utility.populator.RandomStorePopulator;
 
@@ -17,13 +19,14 @@ import static com.denis.store.utility.PrintHelper.printProductLine;
 public class StoreApp {
 
     public static void main(String[] args) throws IllegalAccessException, InstantiationException {
+        new AppHttpServer().startServer();
         initStore();
     }
 
     private static void initStore() throws InstantiationException, IllegalAccessException {
         Scanner scanner = new Scanner(System.in);
-        Populator populator = new DBPopulator();
-        Store store = new Store(populator);
+        Populator populator = new HttpPopulator();
+        Store store = Store.getInstance(populator);
         HandlerManager manager = new HandlerManager();
         manager.execute("print", store);
 

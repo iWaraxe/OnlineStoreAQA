@@ -20,9 +20,8 @@ public class PrintSortHandler extends Handler {
     @Override
     public void execute(Store store) {
         try {
-            XmlReader xmlReader = new XmlReader();
             CommandSortComparator commandSortComparator = new CommandSortComparator(
-                    xmlReader.parceXml("SortParams.xml")
+                    XmlReader.parceXml("SortParams.xml")
             );
             List<Category> cloneCategory = new ArrayList<>();
             for (Category category : store.getCategoryList()) {

@@ -10,7 +10,7 @@ import java.util.Map;
 public class XmlReader {
     public static Map<String, String> parceXml(String fileName) {
         Map<String, String> fieldToOrder = new HashMap<>();
-        InputStream istream = XmlReader.class.getResourceAsStream(fileName);
+        InputStream istream = Class.class.getResourceAsStream(fileName);
         try {
             XMLStreamReader xmlr = XMLInputFactory.newInstance().createXMLStreamReader(fileName,
                     istream
