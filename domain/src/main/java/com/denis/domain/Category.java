@@ -8,6 +8,9 @@ public class Category implements Cloneable {
     private String name;
     protected List<Product> productList;
 
+    public Category() {
+    }
+
     public Category(String name) {
         this.name = name;
     }

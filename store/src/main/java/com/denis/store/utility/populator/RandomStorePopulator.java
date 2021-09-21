@@ -2,6 +2,7 @@ package com.denis.store.utility.populator;
 
 import com.denis.domain.Category;
 import com.denis.domain.Product;
+import com.denis.store.Store;
 import com.denis.store.utility.dao.CategoryDao;
 import com.denis.store.utility.dao.ProductDao;
 import com.github.javafaker.Faker;
@@ -9,6 +10,7 @@ import org.reflections.Reflections;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class RandomStorePopulator implements Populator {
@@ -56,5 +58,11 @@ public class RandomStorePopulator implements Populator {
 
     public List<Category> getAllCategories() {
         return fakerCategory;
+    }
+
+    @Override
+    public void addToCart(Product product) {
+        Store store = Store.getInstance();
+        store.getPurchasedItems().add(product);
     }
 }

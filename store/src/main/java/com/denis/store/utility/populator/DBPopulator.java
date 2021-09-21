@@ -2,6 +2,7 @@ package com.denis.store.utility.populator;
 
 import com.denis.domain.Category;
 import com.denis.domain.Product;
+import com.denis.store.Store;
 import com.denis.store.utility.ConnectionPool;
 import com.denis.store.utility.dao.CategoryDao;
 import com.denis.store.utility.dao.ProductDao;
@@ -37,6 +38,7 @@ public class DBPopulator implements Populator {
             connection.commit();
             connection.close();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e.getMessage(), e);
         } finally {
             if (Objects.nonNull(connection)) {
@@ -57,11 +59,12 @@ public class DBPopulator implements Populator {
         try {
             categories = new RandomStorePopulator().getAllCategories();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e.getMessage(), e);
         }
 
         for (Category category : categories) {
-            if (!categoryDao.existsByName(category.getName())) {
+            if (!categoryDao.existsByName(category.getName())){
                 int id = categoryDao.saveByName(category.getName());
                 category.setId(id);
                 for (Product product : category.getProductList()) {
@@ -72,5 +75,11 @@ public class DBPopulator implements Populator {
         }
 
         return categoryDao.getAll();
+    }
+
+    @Override
+    public void addToCart(Product product) {
+        Store store = Store.getInstance();
+        store.getPurchasedItems().add(product);
     }
 }
