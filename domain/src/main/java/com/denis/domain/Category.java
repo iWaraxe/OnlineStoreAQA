@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Category implements Cloneable {
 
+    private int id;
     private String name;
     protected List<Product> productList;
 
@@ -11,8 +12,17 @@ public class Category implements Cloneable {
         this.name = name;
     }
 
+    public Category(int id, String name) {
+        this.name = name;
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setProductList(List<Product> productList) {
@@ -21,6 +31,10 @@ public class Category implements Cloneable {
 
     public List<Product> getProductList() {
         return productList;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
